@@ -1,0 +1,6 @@
+flask
+flask_sqlalchemy
+flask_expects_json 
+sqlalchemy_utils
+#psycopg2-binary
+mysqlclient

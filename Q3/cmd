@@ -1,0 +1,9 @@
+docker stop db
+docker rm db
+#docker run -p 5432:5432 -e POSTGRES_USER=appseed -e POSTGRES_PASSWORD=appseed -d --name db postgres
+docker run --name db -p 3306:3306 -e MYSQL_ROOT_PASSWORD=mypass -d mariadb/server:10.3
+#sleep 10
+docker stop flask-redirect
+docker rm flask-redirect
+docker build -t allanchow111/flask-redirect .
+docker run --name flask-redirect --link db:3306 -d -p 5000:5000 allanchow111/flask-redirect
