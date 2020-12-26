@@ -7,7 +7,11 @@ uniq -c ips.txt | awk '{print $2","$1}' | sort -k2g > ips.csv
 cat /dev/null > countries.csv
 while IFS=, read -r f1 f2
 do
-    echo "`curl -s https://freegeoip.app/csv/$f1 | cut -d "," -f3`,$f2" >> countries.csv
+    country=`mmdblookup -f GeoLite2-Country.mmdb -i $f1 country names en | awk -F '"' '{print $2}' | tail -n +2 | head -n`
+    echo "`$country`,$f2" >> countries.csv
+    if [[ -z "$country" ]]; then
+        echo "$f1 IP country cannot be resolved."
+    fi
 done < ips.csv
 
 # Find the most hit country
